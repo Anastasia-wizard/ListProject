@@ -14,7 +14,7 @@ public class UserList {
         }
         return userList;
     }
-    private UserList(){
+    private UserList(){        //конструктор для генерации юзеров
         users = new ArrayList();
         for(int i=0; i<100; i++){
             User user = new User();

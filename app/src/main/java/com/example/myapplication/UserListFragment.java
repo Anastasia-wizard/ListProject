@@ -14,26 +14,27 @@ import java.util.List;
 
 public class UserListFragment extends Fragment {
     private RecyclerView userRecyclerView;
-    private UserAdapter userAdapter;
+    private UserAdapter userAdapter;    //переменная для адаптера
     // Метод создаёт компонент View фрагмента из XML разментки
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_user_list,viewGroup,false);
-        userRecyclerView = view.findViewById(R.id.userRecyclerView);
-        userRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        View view = inflater.inflate(R.layout.fragment_user_list,viewGroup,false);  //раздуваем отображение
+        userRecyclerView = view.findViewById(R.id.userRecyclerView);      //переменная с RecyclerView.список.Но он не знает как отображать
+        userRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));// менеджер, отвечающий за отображение списка.Без него не работает
+                                                                                   //LinearLayout - горизонтальные ячейки, построчно
 
-        UserList userList = UserList.get();
+        UserList userList = UserList.get();  //получаем юзерлист
         List<User> users = userList.getUsers();
-        userAdapter = new UserAdapter(users);
-        userRecyclerView.setAdapter(userAdapter);
+        userAdapter = new UserAdapter(users);   //принимает на всход список пользователей
+        userRecyclerView.setAdapter(userAdapter);  //уст.адаптер для userRecyclerView
 
         return view;
     }
 
-    private class UserHolder extends RecyclerView.ViewHolder{
-        private TextView userItem;
+    private class UserHolder extends RecyclerView.ViewHolder{   //вспомогательный класс Recycler для отображен я эл-тов
+        private TextView userItem;            //View компонент
         public UserHolder(LayoutInflater inflater, ViewGroup viewGroup){
-            super(inflater.inflate(R.layout.list_item_user,viewGroup,false));
+            super(inflater.inflate(R.layout.list_item_user,viewGroup,false));  //раздуваем list_item_user
             userItem = itemView.findViewById(R.id.userItem);
         }
         public void bind(User user){
@@ -41,14 +42,14 @@ public class UserListFragment extends Fragment {
             userItem.setText(userName);
         }
     }
-    private class UserAdapter extends RecyclerView.Adapter<UserHolder>{
-        private List<User> users;
+    private class UserAdapter extends RecyclerView.Adapter<UserHolder>{    //адаптер
+        private List<User> users;                            //список пользователей
         public UserAdapter(List<User> users){
             this.users = users;
-        }
+        }   //конструктор в который кладем список, прилетающий в адаптер
 
         @Override
-        public UserHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public UserHolder onCreateViewHolder(ViewGroup viewGroup, int i) {   //создает элемент списка
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             return new UserHolder(inflater,viewGroup);
         }
@@ -62,7 +63,7 @@ public class UserListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return users.size();
-        }
+        }  //читаем размер коллекции
     }
 
 }
